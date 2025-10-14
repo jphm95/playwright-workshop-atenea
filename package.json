@@ -1,0 +1,23 @@
+{
+  "name": "playwright-workshop-atenea",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jphm95/playwright-workshop-atenea.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jphm95/playwright-workshop-atenea/issues"
+  },
+  "homepage": "https://github.com/jphm95/playwright-workshop-atenea#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.7.2"
+  }
+}
