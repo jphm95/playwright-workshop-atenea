@@ -4,6 +4,8 @@ import TestData from '../data/testData.json';
 import { LoginPage } from '../pages/loginPage';
 import { DashboardPage } from '../pages/dashboardPage';
 import { ModalCreateBankAccount } from '../pages/modalCreateBankAccount';
+import fs from 'fs/promises';
+import path from 'path';
 
 
 let loginPage: LoginPage;
@@ -12,6 +14,7 @@ let modalCreateAccount: ModalCreateBankAccount;
 
 const userSendsAuthFile = 'playwright/.auth/userSends.json'
 const userReceivesAuthFile = 'playwright/.auth/userReceives.json'
+const senderUserDataFile = 'playwright/.auth/userSends.data.json'
 
 setup.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
@@ -23,6 +26,10 @@ setup.beforeEach(async ({ page }) => {
 
 setup('Generate User that wires money', async ({ page, request }) => {
     const newUser = await BackendUtils.createUserApiRequest(request, TestData.validUser)
+
+    //Store new user data to use it in further transaction tests
+    await fs.writeFile(path.resolve(__dirname, '..', senderUserDataFile), JSON.stringify(newUser, null, 2));
+
     await loginPage.fillLoginFormAndClickLoginButton(newUser);
     await dashboardPage.addAccountButton.click();
     await modalCreateAccount.selectAccountType('Débito');
@@ -32,7 +39,7 @@ setup('Generate User that wires money', async ({ page, request }) => {
     await page.context().storageState({ path: userSendsAuthFile });
 });
 
-setup('Login user that receives funds ', async ({ page, request }) => {
+setup('Login user that receives funds ', async ({ page }) => {
     await loginPage.fillLoginFormAndClickLoginButton(TestData.validUser);
     await expect(dashboardPage.dashboardTitle).toBeVisible();
     await page.context().storageState({ path: userReceivesAuthFile });
