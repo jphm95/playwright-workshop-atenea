@@ -17,7 +17,7 @@ jobs:
                     - 27017:27017
 
         env:
-            MONGO_URI: ${{ secrets.MOGO_URI }}
+            MONGO_URI: ${{ secrets.MONGO_URI }}
             JWT_SECRET: ${{ secrets.JWT_SECRET }}      
             PORT: 6007
             VITE_API_URL: http://localhost:6007/api
@@ -32,10 +32,10 @@ jobs:
 
             - name: Create .env File for Backend
               run: |
-                  echo "MONGO_URI={{ env.MOGO_URI }}" > app/backend/.env  
-                  echo "JWT_SECRET={{ env.JWT_SECRET }}" >> app/backend/.env  
-                  echo "PORT={{ env.PORT }}" >> app/backend/.env  
-                  echo "VITE_API_URL={{ env.VITE_API_URL }}" >> app/backend/.env  
+                  echo "MONGO_URI=${{ env.MOGO_URI }}" > app/backend/.env  
+                  echo "JWT_SECRET=${{ env.JWT_SECRET }}" >> app/backend/.env  
+                  echo "PORT=${{ env.PORT }}" >> app/backend/.env  
+                  echo "VITE_API_URL=${{ env.VITE_API_URL }}" >> app/backend/.env  
 
             - name: Installing Backend Dependencies
               run: |
@@ -49,11 +49,11 @@ jobs:
 
             #Install Globally wait-on
             - name: Installing wait-on
-              run: npm instal -g wait-on
+              run: npm install -g wait-on
 
             #Wait Backend is set in port 6007
             - name: Waiting Backend is set
-              run: wait-on tcp:6007
+              run: wait-on tcp:localhost:6007
           
             #Install Front End Dependencies
             - name: Install Front End dependencies   
