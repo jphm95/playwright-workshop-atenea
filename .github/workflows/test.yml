@@ -42,6 +42,7 @@ jobs:
                   cd app/backend
                   npm install 
           
+            #Start Backend Server      
             - name: Set Backend
               run: |
                   cd app/backend
@@ -60,11 +61,16 @@ jobs:
               run: |
                   cd app/frontend
                   npm install
+
+            #Start Frontend Server
+            - name: Set Frontend
+              run: |
+                  cd app/frontend
+                  npm run dev > frontend.log 2>&1 &    
               env: 
                 VITE_API_URL: ${{ env.VITE_API_URL }}
-
+            
             #Wait Front is set
             - name: Waiting Frontend is set
               run: wait-on http://localhost:3000
                            
-                      
