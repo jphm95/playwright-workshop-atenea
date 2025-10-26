@@ -28,7 +28,7 @@ jobs:
 
             - name: Clone Repo Athena Redux Bank
               run: |
-                  git clone git@github.com:Atenea-Conocimientos/redux-athena-bank.git app
+                  git clone https://github.com/juantor16/redux-athena-bank.git app
 
             - name: Create .env File for Backend
               run: |
