@@ -91,4 +91,31 @@ jobs:
               uses: actions/upload-artifact@v4
               with: 
                 name: playwright-report
-                path: ./playwright-report      
+                path: ./playwright-report    
+
+            - name: Deploy reports in GitHub Pages   
+              if: always()
+              run: |
+                git config --global user.name "github-actions[bot]"
+                git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+                #Clone GitHub Pages in temporal file
+                cd $RUNNER_TEMP
+                git clone --depth=1 --branch=gh-pages https://x-access-token:${{ secrets.GH_PAGES_PAT1 }}@github.com/${{ github.repository }} gh-pages
+                
+                #Clean previous content
+                cd gh-pages
+                rm -rf ./*
+
+                #Copy new report
+                mkdir -r report-${GITHUB_RUN_NUMBER}
+                cp -r $GITHUB_WORKSPACE/playwright-report/* ./report-${GITHUB_RUN_NUMBER}/
+
+                #Store Changes
+                gitt add . 
+                git commit -m "Playwright Report - Build $GITHUB_RUN_NUMBER"
+                git push origin gh-pages
+
+            - name:  Print Link in console
+              run: |
+                   echo "Report available in: https://${{ github.repository_owner }}.github.io/${{ github.run_number}}/"
