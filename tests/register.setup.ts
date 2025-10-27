@@ -6,16 +6,17 @@ import { DashboardPage } from '../pages/dashboardPage';
 import { ModalCreateBankAccount } from '../pages/modalCreateBankAccount';
 import fs from 'fs/promises';
 import path from 'path';
-import { request } from 'http';
+
 
 
 let loginPage: LoginPage;
 let dashboardPage: DashboardPage;
 let modalCreateAccount: ModalCreateBankAccount;
 
-const userSendsAuthFile = 'playwright/.auth/userSends.json'
-const userReceivesAuthFile = 'playwright/.auth/userReceives.json'
-const senderUserDataFile = 'playwright/.auth/userSends.data.json'
+const authDir = path.resolve(__dirname, '..', 'playwright', '.auth')
+const userSendsAuthFile = path.join(authDir, 'userSends.json');
+const userReceivesAuthFile = path.join(authDir, 'userReceives.json');
+const senderUserDataFile = path.join(authDir, 'userSends.data.json');
 
 setup.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
@@ -23,6 +24,10 @@ setup.beforeEach(async ({ page }) => {
     modalCreateAccount = new ModalCreateBankAccount(page);
 
     await loginPage.navigateToLoginPage();
+});
+
+setup.beforeAll(async () => {
+    await fs.mkdir(authDir, { recursive: true });
 });
 
 setup('Generate User that wires money', async ({ page, request }) => {

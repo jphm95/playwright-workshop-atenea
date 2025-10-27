@@ -3,16 +3,17 @@ import { DashboardPage } from '../pages/dashboardPage';
 import { ModalTransferMoney } from '../pages/modalTransferMoney';
 import TestData from '../data/testData.json';
 import fs from 'fs/promises';
+import path from 'path';
 
 let dashboardPage: DashboardPage;
 let modalTransferMoney: ModalTransferMoney;
 
 const testUserSends = test.extend({
-    storageState: require.resolve('../playwright/.auth/userSends.json')
+    storageState: path.resolve(__dirname, '..', 'playwright', '.auth', 'userSends.json')
 });
 
 const testUserReceives = test.extend({
-    storageState: require.resolve('../playwright/.auth/userReceives.json')
+    storageState: path.resolve(__dirname, '..', 'playwright', '.auth', 'userReceives.json')
 });
 
 test.beforeEach(async ({ page }) => {
@@ -39,14 +40,14 @@ testUserReceives('TC-14 Verify received transaction (Transfered by API)', async 
     //1. Set Data and Sender Token
 
     // Read SenderUser Data File and get email
-    const senderUserData = require.resolve('../playwright/.auth/userSends.data.json'); //File Location 
+    const senderUserData = path.resolve(__dirname, '..', 'playwright', '.auth', 'userSends.data.json'); //File Location
     const senderUserContentData = await fs.readFile(senderUserData, 'utf-8'); //Read File
     const dataSenderUser = JSON.parse(senderUserContentData); //Convert File in JSON object
     const emailSenderUser = dataSenderUser.email;
     expect(emailSenderUser, 'Email from file not defined').toBeDefined();
 
     //Read Sender Auth File to get JWT Token
-    const senderUserAuth = require.resolve('../playwright/.auth/userSends.json');
+    const senderUserAuth =  path.resolve(__dirname, '..', 'playwright', '.auth', 'userSends.json');
     const senderUserContentAuth = await fs.readFile(senderUserAuth, 'utf-8');
     const dataSenderUserAuthh = JSON.parse(senderUserContentAuth);
 
