@@ -74,13 +74,17 @@ jobs:
             - name: Waiting Frontend is set
               run: wait-on http://localhost:3000
 
-            #Install and execute tests
-            - name: Installing and executing tests
+            #Set Playwright and execute tests
+            - name: Install dependencies and Playwright
               run: |
-                  cd tests
-                  npm install
-                  npx playwright install
-                  npx playwright test --reporter=html
+                cd tests
+                npm install
+                npx playwright install --with-deps
+
+            - name: Run Playwright tests
+              run: |
+                cd tests
+                npx playwright test --reporter=html
 
             - name: Store reports as artifacts
               if: always()
