@@ -73,4 +73,18 @@ jobs:
             #Wait Front is set
             - name: Waiting Frontend is set
               run: wait-on http://localhost:3000
-                           
+
+            #Install and execute tests
+            - name: Installing and executing tests
+              run: |
+                  cd tests
+                  npm install
+                  npx playwright install
+                  npx playwright test --reporter=html
+
+            - name: Store reports as artifacts
+              if: always()
+              uses: actions/upload-artifact@v3
+              with: 
+                name: playwright-report
+                path: ./playwright-report      
