@@ -22,21 +22,21 @@ test.beforeEach(async ({ page }) => {
     await dashboardPage.navigateToDashboardPage();
 });
 
-testUserSends('TC-12 Verify successful Transaction', async ({ page }) => {
+testUserSends.beforeEach('TC-12 Verify successful Transaction', async ({ page }) => {
     await expect(dashboardPage.dashboardTitle).toBeVisible();
     await dashboardPage.sendMonyButton.click();
     await modalTransferMoney.fillTransferFormAndClickSend(TestData.validUser.email, '100');
     await expect(page.getByText('Transferencia enviada a ' + TestData.validUser.email)).toBeVisible();
 });
 
-testUserReceives('TC-13 Verify the Receptor User receives the funds', async ({ page }) => {
+testUserReceives.beforeEach('TC-13 Verify the Receptor User receives the funds', async ({ page }) => {
     await expect(dashboardPage.dashboardTitle).toBeVisible();
     await page.waitForTimeout(5000);
     await expect(page.getByText('Transferencia de ').first()).toBeVisible();
 });
 
 // Integrated Test: Transfer money through the API and validate it in the UI
-testUserReceives('TC-14 Verify received transaction (Transfered by API)', async ({ page, request }) => {
+testUserReceives.beforeEach('TC-14 Verify received transaction (Transfered by API)', async ({ page, request }) => {
     //1. Set Data and Sender Token
 
     // Read SenderUser Data File and get email

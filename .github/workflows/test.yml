@@ -112,10 +112,11 @@ jobs:
                 cp -r $GITHUB_WORKSPACE/playwright-report/* ./report-${GITHUB_RUN_NUMBER}/
 
                 #Store Changes
-                gitt add . 
+                git add . 
                 git commit -m "Playwright Report - Build $GITHUB_RUN_NUMBER"
                 git push origin gh-pages
 
             - name:  Print Link in console
+              if: always()
               run: |
                    echo "Report available in: https://${{ github.repository_owner }}.github.io/${{ github.run_number}}/"
