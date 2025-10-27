@@ -15,6 +15,7 @@ test.beforeEach(async ({ page }) => {
 
 test('TC-7: Validate Successful Login ', async ({ page }) => {
   await loginPage.fillLoginFormAndClickLoginButton(TestData.validUser);
+  await expect(page.getByText('Inicio de sesión exitoso')).toBeVisible();
   await expect(dashboardPage.dashboardTitle).toBeVisible();
 });
 
