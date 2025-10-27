@@ -6,6 +6,7 @@ import { DashboardPage } from '../pages/dashboardPage';
 import { ModalCreateBankAccount } from '../pages/modalCreateBankAccount';
 import fs from 'fs/promises';
 import path from 'path';
+import { request } from 'http';
 
 
 let loginPage: LoginPage;
@@ -39,9 +40,9 @@ setup('Generate User that wires money', async ({ page, request }) => {
     await page.context().storageState({ path: userSendsAuthFile });
 });
 
-setup('Login user that receives funds ', async ({ page }) => {
-    await loginPage.fillLoginFormAndClickLoginButton(TestData.validUser);
+setup('Create user, Login user that receives funds ', async ({ page, request }) => {
+    const newUser = await BackendUtils.createUserApiRequest(request, TestData.validUser, false);
+    await loginPage.fillLoginFormAndClickLoginButton(newUser);
     await expect(dashboardPage.dashboardTitle).toBeVisible();
     await page.context().storageState({ path: userReceivesAuthFile });
-
 });
