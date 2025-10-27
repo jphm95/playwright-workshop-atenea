@@ -101,7 +101,7 @@ jobs:
 
                 #Clone GitHub Pages in temporal file
                 cd $RUNNER_TEMP
-                git clone --depth=1 --branch=gh-pages https://x-access-token:${{ secrets.GH_PAGES_PAT1 }}@github.com/${{ github.repository }} gh-pages
+                git clone --depth=1 --branch=gh-pages https://x-access-token:${{ secrets.GH_PAGES_PATH1 }}@github.com/${{ github.repository }} gh-pages
                 
                 #Clean previous content
                 cd gh-pages
